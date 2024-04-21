@@ -4,6 +4,7 @@ import { db, recipesCollection } from "../firebase"
 import { useEffect, useState } from "react"
 import Card from "../components/Card"
 import Listitem from "../components/Listitem"
+import AddItemToFireBase from "../components/AddItemToFirebase"
 
 export default function RecipePage() {
     const { id } = useParams()
@@ -38,6 +39,7 @@ export default function RecipePage() {
                             <Listitem>kaas</Listitem>
                             <Listitem>ham</Listitem>
                             <Listitem>sla</Listitem>
+                            <Listitem className="pb-0 pt-1"><AddItemToFireBase /></Listitem>
                         </ul>
                     </Card>
                 </main>
