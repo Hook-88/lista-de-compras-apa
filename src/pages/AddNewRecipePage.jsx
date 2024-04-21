@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { onSnapshot, doc, addDoc } from "firebase/firestore"
+import { db, recipesCollection } from "../firebase"
 import Card from "../components/Card"
 
 export default function AddNewRecipePage() {
@@ -8,6 +9,18 @@ export default function AddNewRecipePage() {
 
     function handleChange(event) {
         setFormData(event.target.value)
+    }
+
+    async function addNewRecipe() {
+        const docRef = await addDoc(recipesCollection, {
+            name: formData
+        })
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault()
+        addNewRecipe()
+        setFormData("")
     }
 
     return (
