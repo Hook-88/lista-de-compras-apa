@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { onSnapshot } from "firebase/firestore"
 import { db, recipesCollection } from "../firebase"
 import { useEffect, useState } from "react"
@@ -31,7 +32,11 @@ export default function RecipesPage() {
             >
                 <ul>
                     {
-                        recipes.map(recipe => <Card key={recipe.id}>{recipe.name}</Card>)
+                        recipes?.map(recipe => (
+                            <Link to={recipe.id} key={recipe.id}>
+                                <Card>{recipe.name}</Card>
+                            </Link>
+                        ))
                     }
                 </ul>
             </main>
