@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { MenuContext } from "./Menu"
 
 
-export default function MenuButton({children, onClick = () => {}, className}) {
+export default function MenuButton({children, onClick = () => {}, ...rest}) {
     const {toggleOpen} = useContext(MenuContext)
     
     function handleClick() {
@@ -13,7 +13,7 @@ export default function MenuButton({children, onClick = () => {}, className}) {
     return (
         <button 
             onClick={handleClick} 
-            className={className}
+            {...rest}
         >
             {children}
         </button>
