@@ -31,7 +31,7 @@ export default function AddNewRecipePage() {
 
     return (
         <div className="min-h-dvh bg-orange-50">
-            <header className="text-center text-2xl border-b border-slate-300 py-3 mb-2">
+            <header className="text-center text-2xl border-b border-slate-300 py-2 mb-2">
                 <h1>Agregar Receta</h1>
             </header>
             <main
