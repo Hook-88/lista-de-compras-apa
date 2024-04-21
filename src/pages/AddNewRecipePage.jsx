@@ -31,7 +31,7 @@ export default function AddNewRecipePage() {
             <main
                 className="px-2"
             >
-            <form>
+            <form onSubmit={handleSubmit}>
                 <Card>
                     <input 
                         type="text" 
