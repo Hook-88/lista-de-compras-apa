@@ -1,19 +1,20 @@
 import { Outlet } from "react-router-dom"
 import Menu from "./components/Menu/Index"
-import { IoMenu } from "react-icons/io5"
+import { IoMenu, IoClose } from "react-icons/io5"
 
 
 export default function App() {
 
     return (
         <div className="min-h-dvh bg-orange-50">
-            <Menu>
-                <Menu.Button>
+            <Menu className="fixed inset-x-0 top-0 text-2xl">
+                <Menu.Button className="px-3 py-2 fixed z-20">
                     <IoMenu />
                 </Menu.Button>
-                <Menu.Dropdown>
+                <Menu.Dropdown className="fixed inset-x-0 top-0 text-center bg-sky-700 grid gap-2 py-3 pb-4 text-white shadow-md">
                     <Menu.Item>Lista de compras</Menu.Item>
                     <Menu.Item>Recetas</Menu.Item>
+                    <button className="fixed top-0 right-0 px-3 py-2"><IoClose /></button>
                 </Menu.Dropdown>
             </Menu>
             <Outlet />
