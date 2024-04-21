@@ -19,7 +19,7 @@ export default function MenuButton({
                 onClick={handleClick} 
                 {...rest}
             >
-                {children(open)}
+                {typeof children === "function" ? children(open): children}
             </button>
         )
 }
