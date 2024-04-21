@@ -18,7 +18,7 @@ export default function AddNewRecipePage() {
             name: formData
         })
         setRecipeId(docRef.id)
-        navigate(`/recipes/${docRef.id}`)
+        navigate(`/recipes/${docRef.id}`) 
     }
 
     function handleSubmit(event) {
@@ -46,12 +46,14 @@ export default function AddNewRecipePage() {
                         placeholder="Nombre receta"
                         value={formData}
                         onChange={handleChange}
+                        required
+                        autoFocus
                     />
                 </Card>
                 <Card>
-                    <Link className="">
-                        <h4 className="py-1 text-center">Siguiente</h4>
-                    </Link>
+                    <button className="py-1 px-2 w-full bg-sky-700 text-white rounded shadow-sm">
+                        Agregar
+                    </button>
                 </Card>
             </form>
             </main>
