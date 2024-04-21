@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom"
-import { onSnapshot, doc } from "firebase/firestore"
+import { onSnapshot, doc, updateDoc, getDoc } from "firebase/firestore"
 import { db, recipesCollection } from "../firebase"
 import { useEffect, useState } from "react"
 import Card from "../components/Card"
@@ -24,7 +24,6 @@ export default function RecipePage() {
         return unsub
     },[])
 
-
     return (
         recipe ?
             <div className="min-h-dvh bg-orange-50">
@@ -39,7 +38,7 @@ export default function RecipePage() {
                             <Listitem>kaas</Listitem>
                             <Listitem>ham</Listitem>
                             <Listitem>sla</Listitem>
-                            <Listitem className="pb-0 pt-1"><AddItemToFireBase /></Listitem>
+                            <Listitem className="p-0"><AddItemToFireBase /></Listitem>
                         </ul>
                     </Card>
                 </main>

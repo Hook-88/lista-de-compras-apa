@@ -15,7 +15,8 @@ export default function AddNewRecipePage() {
 
     async function addNewRecipe() {
         const docRef = await addDoc(recipesCollection, {
-            name: formData
+            name: formData,
+            ingredients: []
         })
         setRecipeId(docRef.id)
         navigate(`/recipes/${docRef.id}`) 
@@ -26,8 +27,6 @@ export default function AddNewRecipePage() {
         addNewRecipe()
         setFormData("")
     }
-
-    console.log(recipeId)
 
     return (
         <div className="min-h-dvh bg-orange-50">
