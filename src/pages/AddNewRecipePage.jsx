@@ -1,11 +1,13 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { onSnapshot, doc, addDoc } from "firebase/firestore"
 import { db, recipesCollection } from "../firebase"
 import Card from "../components/Card"
 
 export default function AddNewRecipePage() {
     const [formData, setFormData] = useState("")
+    const [recipeId, setRecipeId] = useState(null)
+    const navigate = useNavigate()
 
     function handleChange(event) {
         setFormData(event.target.value)
@@ -15,6 +17,8 @@ export default function AddNewRecipePage() {
         const docRef = await addDoc(recipesCollection, {
             name: formData
         })
+        setRecipeId(docRef.id)
+        navigate(`/recipes/${docRef.id}`)
     }
 
     function handleSubmit(event) {
@@ -22,6 +26,8 @@ export default function AddNewRecipePage() {
         addNewRecipe()
         setFormData("")
     }
+
+    console.log(recipeId)
 
     return (
         <div className="min-h-dvh bg-orange-50">
