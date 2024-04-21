@@ -3,6 +3,7 @@ import { onSnapshot, doc } from "firebase/firestore"
 import { db, recipesCollection } from "../firebase"
 import { useEffect, useState } from "react"
 import Card from "../components/Card"
+import Listitem from "../components/Listitem"
 
 export default function RecipePage() {
     const { id } = useParams()
@@ -32,6 +33,13 @@ export default function RecipePage() {
                 <main 
                     className="px-2"
                 >
+                    <Card className="pt-1">
+                        <ul>
+                            <Listitem>kaas</Listitem>
+                            <Listitem>ham</Listitem>
+                            <Listitem>sla</Listitem>
+                        </ul>
+                    </Card>
                 </main>
             </div> : <h1>Loading...</h1>
     )
