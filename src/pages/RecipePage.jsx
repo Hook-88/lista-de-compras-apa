@@ -131,12 +131,12 @@ export default function RecipePage() {
                         </ul>
                     </Card>
                     <div className="flex gap-2 text-lg">
-                        <Card className="p-0 flex">
+                        {/* <Card className="p-0 flex">
                             <Checkbox  
                                 className="p-3 px-2"
                                 checked={recipe.ingredients.every(ingredient => ingredient.checked)}
                             />
-                        </Card>
+                        </Card> */}
                         <Card className="flex-1">
                             <button 
                                 className="py-1 px-2 w-full bg-red-700 text-white rounded shadow-sm"
