@@ -10,6 +10,7 @@ import AddItemToFireBase from "../components/AddItemToFirebase"
 import { FaPlus, FaCheck } from "react-icons/fa6"
 import useToggle from "../hooks/useToggle"
 import getCapString from "../utility/getCapString"
+import Ingredient from "../components/Ingredient"
 
 const RecipeContext = createContext()
 
@@ -17,6 +18,8 @@ export default function RecipePage() {
     const { id } = useParams()
     const [recipe, setRecipe] = useState(null)
     const [showAddIngredient, toggleShowAddIngredient] = useToggle(false)
+    const [ noneSelected, setNoneSelected ] = useState(true)
+    const [ oneSelected, setOneSelected] = useState(false)
 
     useEffect(() => {
         const docRef = doc(db, "recipes", id)
@@ -31,6 +34,15 @@ export default function RecipePage() {
 
         return unsub
     },[])
+
+    useEffect(() => {
+        const noneChecked = recipe?.ingredients.every(ingredient => ingredient.checked === false)
+        const oneChecked = recipe?.ingredients.filter(ingredient => ingredient.checked === true).length === 1
+        
+        setNoneSelected(noneChecked)
+        setOneSelected(oneChecked)
+        
+    }, [recipe])
 
     async function addIngredient(value) {
         const docRef = doc(db, "recipes", id)
@@ -153,14 +165,11 @@ export default function RecipePage() {
                         <ul>
                             {
                                 recipe.ingredients.map(ingredient => (
-                                    <Listitem 
+                                    <Ingredient 
                                         key={ingredient.id}
                                         onClick={() => toggleChecked(ingredient.id)}
-                                        className="cursor-pointer text-lg flex gap-2 items-center"
-                                    >
-                                        <Checkbox checked={ingredient.checked} />
-                                        {getCapString(ingredient.name)}
-                                    </Listitem>
+                                        ingredientObj={ingredient}
+                                    />
                                 ))
                             }
                             {
@@ -179,14 +188,16 @@ export default function RecipePage() {
                         </Card>
                         <Card className="flex flex-1 gap-2">
                             <button 
-                                className="py-1 px-2 w-full bg-sky-600 text-white rounded shadow-sm"
-                                onClick={removeSelection}
+                                className="py-1 px-2 w-full bg-sky-600 text-white rounded shadow-sm disabled:opacity-50"
+                                onClick={() => {}}
+                                disabled={!oneSelected}
                             >
                                 Edit
                             </button>
                             <button 
-                                className="py-1 px-2 w-full bg-red-600 text-white rounded shadow-sm"
+                                className="py-1 px-2 w-full bg-red-600 text-white rounded shadow-sm disabled:opacity-50"
                                 onClick={removeSelection}
+                                disabled={noneSelected}
                             >
                                 Borrar
                             </button>
