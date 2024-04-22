@@ -24,7 +24,6 @@ export default function RecipePage() {
             const recipeObj = {
                 ...snapshot.data(),
                 id: id,
-                checked: false
             }
             setRecipe(recipeObj)
         })
@@ -41,6 +40,24 @@ export default function RecipePage() {
             checked: false
         }
         const newIngredientsArray = [...docSnap.data().ingredients, ingredientObj]
+
+        await updateDoc(docRef, { ingredients: newIngredientsArray})   
+    }
+
+    async function removeIngredient(ingredientId) {
+        const docRef = doc(db, "recipes", id)
+        const docSnap = await getDoc(docRef)
+
+        const newIngredientsArray = docSnap.data().ingredients.filter(ingredient => ingredient.id !== ingredientId)
+
+        await updateDoc(docRef, { ingredients: newIngredientsArray})   
+    }
+
+    async function removeSelection() {
+        const docRef = doc(db, "recipes", id)
+        const docSnap = await getDoc(docRef)
+
+        const newIngredientsArray = docSnap.data().ingredients.filter(ingredient => ingredient.checked === false)
 
         await updateDoc(docRef, { ingredients: newIngredientsArray})   
     }
@@ -100,7 +117,7 @@ export default function RecipePage() {
                                     <Listitem 
                                         key={ingredient.id}
                                         onClick={() => toggleChecked(ingredient.id)}
-                                        className="cursor-pointer"
+                                        className="cursor-pointer text-lg flex gap-2 items-center"
                                     >
                                         <Checkbox checked={ingredient.checked} />
                                         {ingredient.name}
@@ -113,6 +130,22 @@ export default function RecipePage() {
                             
                         </ul>
                     </Card>
+                    <div className="flex gap-2 text-lg">
+                        <Card className="p-0 flex">
+                            <Checkbox  
+                                className="p-3 px-2"
+                                checked={recipe.ingredients.every(ingredient => ingredient.checked)}
+                            />
+                        </Card>
+                        <Card className="flex-1">
+                            <button 
+                                className="py-1 px-2 w-full bg-red-700 text-white rounded shadow-sm"
+                                onClick={removeSelection}
+                            >
+                                Borrar
+                            </button>
+                        </Card>
+                    </div>
                 </main>
             </div> 
             </RecipeContext.Provider> : <h1>Loading...</h1>
