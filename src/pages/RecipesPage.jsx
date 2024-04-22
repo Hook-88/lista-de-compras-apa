@@ -9,7 +9,7 @@ export default function RecipesPage() {
     const [recipes, setRecipes] = useState(null)
 
     useEffect(() => {
-        const unsub = onSnapshot(recipesCollection, snapshot => {
+        const unsub = onSnapshot(recipesCollection, snapshot => {   
             //sync with local state
             const recipesArray = snapshot.docs.map(doc => ({
                 ...doc.data(),
@@ -28,7 +28,7 @@ export default function RecipesPage() {
             <header className="text-2xl border-b border-slate-300 py-2 mb-2 flex justify-between items-center">
                 <FaPlus className="text-transparent"/>
                 <h1>Recetas</h1>
-                <Link to="/add-new-recipe flex">
+                <Link to="/add-new-recipe">
                     <button className="pr-2 flex">
                         <FaPlus />
                     </button>
