@@ -3,7 +3,7 @@ import getCapString from "../utility/getCapString"
 import { twMerge } from "tailwind-merge"
 import Checkbox from "./Checkbox"
 
-export default function ItemsListItem({itemObj, className, ...rest}) {
+export default function ItemsListItem({itemObj, className, onClick, ...rest}) {
     const ListItemCSS = twMerge(
         "cursor-pointer text-lg flex gap-2 items-center",
         className
@@ -12,6 +12,7 @@ export default function ItemsListItem({itemObj, className, ...rest}) {
     return (
         <Listitem 
             className={ListItemCSS}
+            onClick={() => onClick(itemObj.id)}
             {...rest}
         >
             <Checkbox checked={itemObj.checked} />

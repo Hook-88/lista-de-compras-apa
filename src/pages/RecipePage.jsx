@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom"
 import { onSnapshot, doc, updateDoc, getDoc } from "firebase/firestore"
 import { db, recipesCollection } from "../firebase"
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect, useRef, useState } from "react"
 import { nanoid } from "nanoid"
 import Card from "../components/Card"
 import Listitem from "../components/Listitem"
@@ -22,9 +22,10 @@ export default function RecipePage() {
     const [showAddIngredient, toggleShowAddIngredient] = useToggle(false)
     const [ noneSelected, setNoneSelected ] = useState(true)
     const [ oneSelected, setOneSelected] = useState(false)
+    // ref to document in firebase
+    const docRef = doc(db, "recipes", id)
 
     useEffect(() => {
-        const docRef = doc(db, "recipes", id)
         const unsub = onSnapshot(docRef, snapshot => {
             // sync with local state
             const recipeObj = {
@@ -47,7 +48,6 @@ export default function RecipePage() {
     }, [recipe])
 
     async function addIngredient(value) {
-        const docRef = doc(db, "recipes", id)
         const docSnap = await getDoc(docRef)
         const ingredientObj = {
             name: value,
@@ -60,7 +60,6 @@ export default function RecipePage() {
     }
 
     async function removeIngredient(ingredientId) {
-        const docRef = doc(db, "recipes", id)
         const docSnap = await getDoc(docRef)
 
         const newIngredientsArray = docSnap.data().ingredients.filter(ingredient => ingredient.id !== ingredientId)
@@ -69,7 +68,6 @@ export default function RecipePage() {
     }
 
     async function removeSelection() {
-        const docRef = doc(db, "recipes", id)
         const docSnap = await getDoc(docRef)
 
         const newIngredientsArray = docSnap.data().ingredients.filter(ingredient => ingredient.checked === false)
@@ -78,7 +76,6 @@ export default function RecipePage() {
     }
 
     async function checkIngredient(ingredientId, checkValue) {
-        const docRef = doc(db, "recipes", id)
         const docSnap = await getDoc(docRef)
 
         const newIngredientsArray = docSnap.data().ingredients.map(ingredient => {
@@ -95,7 +92,6 @@ export default function RecipePage() {
     }
 
     async function toggleChecked(ingredientId) {
-        const docRef = doc(db, "recipes", id)
         const docSnap = await getDoc(docRef)
 
         const newIngredientsArray = docSnap.data().ingredients.map(ingredient => {
@@ -113,7 +109,6 @@ export default function RecipePage() {
     }
 
     async function checkAllItems() {
-        const docRef = doc(db, "recipes", id)
         const docSnap = await getDoc(docRef)
 
         const newIngredientsArray = docSnap.data().ingredients.map(ingredient => ({
@@ -126,7 +121,6 @@ export default function RecipePage() {
     }
 
     async function unCheckAllItems() {
-        const docRef = doc(db, "recipes", id)
         const docSnap = await getDoc(docRef)
 
         const newIngredientsArray = docSnap.data().ingredients.map(ingredient => ({
@@ -163,7 +157,8 @@ export default function RecipePage() {
                 <main 
                     className="px-2"
                     >
-                    <ItemsList itemsArray={recipe?.ingredients} />
+                    <ItemsList itemsArray={recipe?.ingredients} docRef={docRef}/>
+
                     <Card className="pt-1">
                         <ul>
                             {
