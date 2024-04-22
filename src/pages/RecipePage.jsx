@@ -6,12 +6,15 @@ import { nanoid } from "nanoid"
 import Card from "../components/Card"
 import Listitem from "../components/Listitem"
 import AddItemToFireBase from "../components/AddItemToFirebase"
+import { FaPlus, FaCheck } from "react-icons/fa6"
+import useToggle from "../hooks/useToggle"
 
 const RecipeContext = createContext()
 
 export default function RecipePage() {
     const { id } = useParams()
     const [recipe, setRecipe] = useState(null)
+    const [showAddIngredient, toggleShowAddIngredient] = useToggle(false)
 
     useEffect(() => {
         const docRef = doc(db, "recipes", id)
@@ -44,7 +47,10 @@ export default function RecipePage() {
             <RecipeContext.Provider value={{addIngredient}}>
             <div className="min-h-dvh bg-orange-50">
                 <header className="text-center text-2xl border-b border-slate-300 py-2 mb-2">
-                    <h1>{recipe.name}</h1>
+                    <h1 className="">{recipe.name}</h1>
+                    <button className="absolute top-0 right-0 p-3" onClick={toggleShowAddIngredient}>
+                        { showAddIngredient ? <FaCheck /> : <FaPlus />}
+                    </button>
                 </header>
                 <main 
                     className="px-2"
@@ -56,7 +62,10 @@ export default function RecipePage() {
                                     <Listitem key={ingredient.id}>{ingredient.name}</Listitem>
                                 ))
                             }
-                            <Listitem className="p-0"><AddItemToFireBase addFunction={addIngredient}/></Listitem>
+                            {
+                                showAddIngredient ? <Listitem className="p-0"><AddItemToFireBase addFunction={addIngredient}/></Listitem> : null
+                            } 
+                            
                         </ul>
                     </Card>
                 </main>
