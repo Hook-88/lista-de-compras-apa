@@ -35,7 +35,7 @@ export default function RecipePage() {
         recipe ?
             <div className="min-h-dvh bg-orange-50">
                 <header className="text-2xl border-b border-slate-300 py-2 mb-2 flex justify-between items-center">
-                    <FaCheck className="text-transparent"/>
+                    <FaCheck className="text-transparent px-3"/>
                     <h1 className="">{getCapString(recipe.name)}</h1>
                     <button className="px-3" onClick={toggleShowAddIngredient}>
                         { showAddIngredient ? <FaCheck /> : <FaPlus />}
