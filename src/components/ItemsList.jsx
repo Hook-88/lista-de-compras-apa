@@ -1,4 +1,4 @@
-import { createContext } from "react"
+import { createContext, useRef } from "react"
 import { getDoc, updateDoc } from "firebase/firestore"
 import Card from "./Card"
 import ItemsListItem from "./ItemsListItem"
@@ -8,7 +8,7 @@ import { nanoid } from "nanoid"
 
 const ItemsListContext = createContext()
 
-export default function ItemsList({itemsArray, docRef, docProp, showAddItem }) {
+export default function ItemsList({itemsArray, docRef, docProp, showAddItem}) {
 
     async function toggleChecked(itemId) {
         const docSnap = await getDoc(docRef)

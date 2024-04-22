@@ -1,12 +1,13 @@
 import Form from "./Form"
 import { onSnapshot, doc, addDoc } from "firebase/firestore"
 import { db, recipesCollection } from "../firebase"
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 
 
 export default function AddItemToFireBase({addFunction}) {
     const [formData, setFormData] = useState("")
+    const inputRef = useRef()
 
     function handleChange(event) {
         setFormData(event.target.value)
@@ -15,6 +16,9 @@ export default function AddItemToFireBase({addFunction}) {
     function handleSubmit() {
         addFunction(formData)
         setFormData("")
+        setTimeout(() => {
+            inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 100)
     }
 
     return (
@@ -27,6 +31,7 @@ export default function AddItemToFireBase({addFunction}) {
                 autoFocus
                 value={formData}
                 onChange={handleChange}
+                ref={inputRef}
             />
             <button className="px-3 py-2 bg-sky-700 text-white rounded-r">add</button>
         </Form>
