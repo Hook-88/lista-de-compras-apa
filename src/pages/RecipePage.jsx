@@ -51,9 +51,11 @@ export default function RecipePage() {
                     >
                     <Card className="pt-1">
                         <ul>
-                            <Listitem>kaas</Listitem>
-                            <Listitem>ham</Listitem>
-                            <Listitem>sla</Listitem>
+                            {
+                                recipe.ingredients.map(ingredient => (
+                                    <Listitem key={ingredient.id}>{ingredient.name}</Listitem>
+                                ))
+                            }
                             <Listitem className="p-0"><AddItemToFireBase addFunction={addIngredient}/></Listitem>
                         </ul>
                     </Card>
