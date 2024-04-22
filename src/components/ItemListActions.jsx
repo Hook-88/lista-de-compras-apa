@@ -62,19 +62,19 @@ export default function ItemsListActions({itemsArray, docRef, docProp}) {
                     }
                 ))
 
-        const newItemsArray = [...docSnap.data().items, ...itemsToAddArray]
-
-        await updateDoc(shoppingListDocRef, { items: newItemsArray}).reduce((uniqueArray, item) => {
+        const newItemsArray = [...docSnap.data().items, ...itemsToAddArray].reduce((uniqueArray, item) => {
             // Use a map to track unique items by id
-            if (!uniqueArray.map(obj => obj.id).includes(item.id)) {
+            if (!uniqueArray.map(obj => obj.name).includes(item.name)) {
                 uniqueArray.push(item)
             }
             return uniqueArray
         }, [])
 
+        await updateDoc(shoppingListDocRef, { items: newItemsArray})
+
         unCheckAllItems()
     }
-    
+
     return (
         <>
         <div className="flex gap-2 text-lg">
