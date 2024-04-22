@@ -32,6 +32,48 @@ export default function ShoppingListPage() {
         return unsub
     },[])
 
+    function toggleAllChecked() {
+        const allChecked = recipe.items.every(item => item.checked)
+        
+        if (allChecked) {
+            unCheckAllItems()
+        } else {
+            checkAllItems()
+        }  
+    }
+
+    async function checkAllItems() {
+        const docSnap = await getDoc(docRef)
+
+        const newItemsArray = docSnap.data().items.map(item => ({
+            ...item,
+            checked: true
+        }))
+
+        await updateDoc(docRef, { items: newItemsArray })
+
+    }
+
+    async function unCheckAllItems() {
+        const docSnap = await getDoc(docRef)
+
+        const newItemsArray = docSnap.data().items.map(item => ({
+            ...item,
+            checked: false
+        }))
+
+        await updateDoc(docRef, { items: newItemsArray })
+
+    }
+    
+    async function removeSelection() {
+        const docSnap = await getDoc(docRef)
+
+        const newItemsArray = docSnap.data().items.filter(item => item.checked === false)
+
+        await updateDoc(docRef, { items: newItemsArray})   
+    }
+
     return (
         recipe ?
             <div className="min-h-dvh bg-orange-50">
@@ -66,14 +108,14 @@ export default function ShoppingListPage() {
                             <Checkbox  
                                 className="p-3 px-2"
                                 checked={recipe.items.every(item => item.checked)}
-                                // onClick={toggleAllChecked}
+                                onClick={toggleAllChecked}
                                 />
                         </Card>
                         
                         <Card className="flex flex-1 gap-2">
                             <button 
                                 className="py-1 px-2 w-full bg-red-600 text-white rounded shadow-sm disabled:opacity-50"
-                                // onClick={removeSelection}
+                                onClick={removeSelection}
                                 disabled={recipe.items.every(item => item.checked === false)}
                                 >
                                 Borrar
