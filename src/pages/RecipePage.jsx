@@ -48,6 +48,7 @@ export default function RecipePage() {
     }, [recipe])
 
     async function addIngredient(value) {
+        const docRef = doc(db, "recipes", id)
         const docSnap = await getDoc(docRef)
         const ingredientObj = {
             name: value,
@@ -157,7 +158,13 @@ export default function RecipePage() {
                 <main 
                     className="px-2"
                     >
-                    <ItemsList itemsArray={recipe?.ingredients} docRef={docRef}/>
+                    <ItemsList 
+                        itemsArray={recipe?.ingredients} 
+                        docRef={docRef} 
+                        docProp="ingredients" 
+                        showAddItem={showAddIngredient} 
+                        addFunction={addIngredient}
+                    />
 
                     <Card className="pt-1">
                         <ul>
@@ -170,9 +177,9 @@ export default function RecipePage() {
                                     />
                                 ))
                             }
-                            {
+                            {/* {
                                 showAddIngredient ? <Listitem className="p-0"><AddItemToFireBase addFunction={addIngredient}/></Listitem> : null
-                            } 
+                            }  */}
                             
                         </ul>
                     </Card>

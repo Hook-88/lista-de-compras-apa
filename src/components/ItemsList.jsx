@@ -2,26 +2,42 @@ import { createContext } from "react"
 import { getDoc, updateDoc } from "firebase/firestore"
 import Card from "./Card"
 import ItemsListItem from "./ItemsListItem"
+import Listitem from "./Listitem"
+import AddItemToFireBase from "./AddItemToFirebase"
+import { nanoid } from "nanoid"
 
 const ItemsListContext = createContext()
 
-export default function ItemsList({itemsArray, docRef}) {
+export default function ItemsList({itemsArray, docRef, docProp, showAddItem }) {
 
-    async function toggleChecked(ingredientId) {
+    async function toggleChecked(itemId) {
         const docSnap = await getDoc(docRef)
 
-        const newIngredientsArray = docSnap.data().ingredients.map(ingredient => {
-            if (ingredient.id === ingredientId) {
+        const newItemsArray = docSnap.data()[docProp].map(item => {
+            if (item.id === itemId) {
                 
-                return {...ingredient, checked: !ingredient.checked}
+                return {...item, checked: !item.checked}
             } else {
 
-                return ingredient
+                return item
             }
         })
 
-        await updateDoc(docRef, { ingredients: newIngredientsArray }) 
+        await updateDoc(docRef, { [docProp]: newItemsArray }) 
         
+    }
+
+    async function addItem(value) {
+        const docSnap = await getDoc(docRef)
+
+        const itemObj = {
+            name: value,
+            id: nanoid(),
+            checked: false
+        }
+        const newItemsArray = [...docSnap.data()[docProp], itemObj]
+
+        await updateDoc(docRef, { [docProp]: newItemsArray})   
     }
 
     return (
@@ -33,9 +49,9 @@ export default function ItemsList({itemsArray, docRef}) {
                             <ItemsListItem key={ingredient.id} itemObj={ingredient} onClick={toggleChecked}/>
                         ))
                     }
-                    {/* {
-                        showAddIngredient ? <Listitem className="p-0"><AddItemToFireBase addFunction={() => {}}/></Listitem> : null
-                    }  */}
+                    {
+                        showAddItem ? <Listitem className="p-0"><AddItemToFireBase addFunction={addItem}/></Listitem> : null
+                    } 
                 </ul>
             </Card>
         </ItemsListContext.Provider>
