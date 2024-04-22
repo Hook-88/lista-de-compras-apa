@@ -98,6 +98,43 @@ export default function RecipePage() {
         
     }
 
+    async function checkAllItems() {
+        const docRef = doc(db, "recipes", id)
+        const docSnap = await getDoc(docRef)
+
+        const newIngredientsArray = docSnap.data().ingredients.map(ingredient => ({
+            ...ingredient,
+            checked: true
+        }))
+
+        await updateDoc(docRef, { ingredients: newIngredientsArray })
+
+    }
+
+    async function unCheckAllItems() {
+        const docRef = doc(db, "recipes", id)
+        const docSnap = await getDoc(docRef)
+
+        const newIngredientsArray = docSnap.data().ingredients.map(ingredient => ({
+            ...ingredient,
+            checked: false
+        }))
+
+        await updateDoc(docRef, { ingredients: newIngredientsArray })
+
+    }
+
+    function toggleAllChecked() {
+        const allChecked = recipe.ingredients.every(ingredient => ingredient.checked)
+        
+        if (allChecked) {
+            unCheckAllItems()
+        } else {
+            checkAllItems()
+        }
+        
+    }
+
     return (
         recipe ?
             <RecipeContext.Provider value={{addIngredient}}>
@@ -133,12 +170,13 @@ export default function RecipePage() {
                         </ul>
                     </Card>
                     <div className="flex gap-2 text-lg">
-                        {/* <Card className="p-0 flex">
+                        <Card className="p-0 flex">
                             <Checkbox  
                                 className="p-3 px-2"
                                 checked={recipe.ingredients.every(ingredient => ingredient.checked)}
+                                onClick={toggleAllChecked}
                             />
-                        </Card> */}
+                        </Card>
                         <Card className="flex-1">
                             <button 
                                 className="py-1 px-2 w-full bg-red-700 text-white rounded shadow-sm"
