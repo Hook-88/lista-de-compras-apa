@@ -12,6 +12,8 @@ import useToggle from "../hooks/useToggle"
 import getCapString from "../utility/getCapString"
 import Ingredient from "../components/Ingredient"
 
+import ItemsList from "../components/ItemsList"
+
 const RecipeContext = createContext()
 
 export default function RecipePage() {
@@ -161,6 +163,7 @@ export default function RecipePage() {
                 <main 
                     className="px-2"
                     >
+                    <ItemsList itemsArray={recipe?.ingredients} />
                     <Card className="pt-1">
                         <ul>
                             {
