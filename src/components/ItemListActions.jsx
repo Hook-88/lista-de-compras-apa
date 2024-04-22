@@ -64,13 +64,16 @@ export default function ItemsListActions({itemsArray, docRef, docProp}) {
 
         const newItemsArray = [...docSnap.data().items, ...itemsToAddArray]
 
-        await updateDoc(shoppingListDocRef, { items: newItemsArray})
+        await updateDoc(shoppingListDocRef, { items: newItemsArray}).reduce((uniqueArray, item) => {
+            // Use a map to track unique items by id
+            if (!uniqueArray.map(obj => obj.id).includes(item.id)) {
+                uniqueArray.push(item)
+            }
+            return uniqueArray
+        }, [])
 
         unCheckAllItems()
     }
-
-
-
     
     return (
         <>
