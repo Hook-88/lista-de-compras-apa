@@ -177,13 +177,20 @@ export default function RecipePage() {
                                 onClick={toggleAllChecked}
                             />
                         </Card>
-                        <Card className="flex-1">
+                        <Card className="flex flex-1 gap-2">
                             <button 
-                                className="py-1 px-2 w-full bg-red-700 text-white rounded shadow-sm"
+                                className="py-1 px-2 w-full bg-sky-600 text-white rounded shadow-sm"
+                                onClick={removeSelection}
+                            >
+                                Edit
+                            </button>
+                            <button 
+                                className="py-1 px-2 w-full bg-red-600 text-white rounded shadow-sm"
                                 onClick={removeSelection}
                             >
                                 Borrar
                             </button>
+                            
                         </Card>
                     </div>
                 </main>
