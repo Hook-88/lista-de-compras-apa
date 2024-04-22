@@ -15,7 +15,7 @@ export default function RecipesPage() {
             const recipesArray = snapshot.docs.map(doc => ({
                 ...doc.data(),
                 id: doc.id
-            }))
+            })).sort((a, b) => a.name.localeCompare(b.name))
 
             setRecipes(recipesArray)
         })
