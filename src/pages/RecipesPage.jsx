@@ -4,6 +4,7 @@ import { db, recipesCollection } from "../firebase"
 import { useEffect, useState } from "react"
 import Card from "../components/Card"
 import { FaPlus } from "react-icons/fa6"
+import getCapString from "../utility/getCapString"
 
 export default function RecipesPage() {
     const [recipes, setRecipes] = useState(null)
@@ -41,7 +42,7 @@ export default function RecipesPage() {
                     {
                         recipes?.map(recipe => (
                             <Link to={recipe.id} key={recipe.id}>
-                                <Card>{recipe.name}</Card>
+                                <Card>{getCapString(recipe.name)}</Card>
                             </Link>
                         ))
                     }

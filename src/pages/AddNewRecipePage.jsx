@@ -6,7 +6,7 @@ import Card from "../components/Card"
 
 export default function AddNewRecipePage() {
     const [formData, setFormData] = useState("")
-    const [recipeId, setRecipeId] = useState(null)
+    // const [recipeId, setRecipeId] = useState(null)
     const navigate = useNavigate()
 
     function handleChange(event) {
@@ -15,10 +15,10 @@ export default function AddNewRecipePage() {
 
     async function addNewRecipe() {
         const docRef = await addDoc(recipesCollection, {
-            name: formData,
+            name: formData.trim().toLowerCase(),
             ingredients: []
         })
-        setRecipeId(docRef.id)
+        // setRecipeId(docRef.id)
         navigate(`/recipes/${docRef.id}`) 
     }
 

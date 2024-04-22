@@ -9,6 +9,7 @@ import Checkbox from "../components/Checkbox"
 import AddItemToFireBase from "../components/AddItemToFirebase"
 import { FaPlus, FaCheck } from "react-icons/fa6"
 import useToggle from "../hooks/useToggle"
+import getCapString from "../utility/getCapString"
 
 const RecipeContext = createContext()
 
@@ -103,7 +104,7 @@ export default function RecipePage() {
             <div className="min-h-dvh bg-orange-50">
                 <header className="text-2xl border-b border-slate-300 py-2 mb-2 flex justify-between items-center">
                     <FaCheck className="text-transparent"/>
-                    <h1 className="">{recipe.name}</h1>
+                    <h1 className="">{getCapString(recipe.name)}</h1>
                     <button className="px-3" onClick={toggleShowAddIngredient}>
                         { showAddIngredient ? <FaCheck /> : <FaPlus />}
                     </button>
@@ -121,7 +122,7 @@ export default function RecipePage() {
                                         className="cursor-pointer text-lg flex gap-2 items-center"
                                     >
                                         <Checkbox checked={ingredient.checked} />
-                                        {ingredient.name}
+                                        {getCapString(ingredient.name)}
                                     </Listitem>
                                 ))
                             }
