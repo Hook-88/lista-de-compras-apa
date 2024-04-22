@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import AddNewRecipePage from './pages/AddNewRecipePage.jsx'
 import RecipesPage from "./pages/RecipesPage.jsx"
 import RecipePage from "./pages/RecipePage.jsx"
+import ShoppingListPage from './pages/ShoppingListPage.jsx'
 import App from './App.jsx'
 import './index.css'
 
@@ -12,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
         <Routes>
             <Route element={<App />} path="/">
-                <Route element={<h1>Shopping list</h1>} index/>
+                <Route element={<ShoppingListPage />} index/>
                 <Route path="recipes" element={<RecipesPage />}/>
                 <Route path="recipes/:id" element={<RecipePage />}/>
                 <Route path="add-new-recipe" element={<AddNewRecipePage />}/>
