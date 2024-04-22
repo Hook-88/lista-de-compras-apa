@@ -9,7 +9,7 @@ import Card from "../components/Card"
 import Checkbox from "../components/Checkbox"
 
 import ItemsList from "../components/ItemsList"
-import ItemsListActions from "../components/ItemListActions"
+import ShoppingListActions from "../components/ShoppingListActions"
 
 const RecipeContext = createContext()
 
@@ -32,48 +32,6 @@ export default function ShoppingListPage() {
         return unsub
     },[])
 
-    function toggleAllChecked() {
-        const allChecked = recipe.items.every(item => item.checked)
-        
-        if (allChecked) {
-            unCheckAllItems()
-        } else {
-            checkAllItems()
-        }  
-    }
-
-    async function checkAllItems() {
-        const docSnap = await getDoc(docRef)
-
-        const newItemsArray = docSnap.data().items.map(item => ({
-            ...item,
-            checked: true
-        }))
-
-        await updateDoc(docRef, { items: newItemsArray })
-
-    }
-
-    async function unCheckAllItems() {
-        const docSnap = await getDoc(docRef)
-
-        const newItemsArray = docSnap.data().items.map(item => ({
-            ...item,
-            checked: false
-        }))
-
-        await updateDoc(docRef, { items: newItemsArray })
-
-    }
-    
-    async function removeSelection() {
-        const docSnap = await getDoc(docRef)
-
-        const newItemsArray = docSnap.data().items.filter(item => item.checked === false)
-
-        await updateDoc(docRef, { items: newItemsArray})   
-    }
-
     return (
         recipe ?
             <div className="min-h-dvh bg-orange-50">
@@ -93,38 +51,13 @@ export default function ShoppingListPage() {
                         docProp="items" 
                         showAddItem={showAddIngredient} 
                     />
-                    {/* {
-                        recipe.items?.length > 0 &&
-                            <ItemsListActions 
-                                itemsArray={recipe?.items} 
+                    {
+                        recipe.items.length > 0 &&
+                            <ShoppingListActions 
+                                itemsArray={recipe.items} 
                                 docRef={docRef} 
-                                docProp="items"
                             />
-                    } */}
-
-                <>
-                    <div className="flex gap-2 text-lg">
-                        <Card className="p-0 flex">
-                            <Checkbox  
-                                className="p-3 px-2"
-                                checked={recipe.items.every(item => item.checked)}
-                                onClick={toggleAllChecked}
-                                />
-                        </Card>
-                        
-                        <Card className="flex flex-1 gap-2">
-                            <button 
-                                className="py-1 px-2 w-full bg-red-600 text-white rounded shadow-sm disabled:opacity-50"
-                                onClick={removeSelection}
-                                disabled={recipe.items.every(item => item.checked === false)}
-                                >
-                                Borrar
-                            </button>
-                        </Card>
-
-                        
-                    </div>
-                </>
+                    }
 
                 </main>
             </div>  : <h1>Loading...</h1>
