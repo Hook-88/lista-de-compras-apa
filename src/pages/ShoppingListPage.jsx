@@ -5,6 +5,8 @@ import { createContext, useEffect, useRef, useState } from "react"
 import { FaPlus, FaCheck } from "react-icons/fa6"
 import useToggle from "../hooks/useToggle"
 import getCapString from "../utility/getCapString"
+import Card from "../components/Card"
+import Checkbox from "../components/Checkbox"
 
 import ItemsList from "../components/ItemsList"
 import ItemsListActions from "../components/ItemListActions"
@@ -49,14 +51,39 @@ export default function ShoppingListPage() {
                         docProp="items" 
                         showAddItem={showAddIngredient} 
                     />
-                    {
+                    {/* {
                         recipe.items?.length > 0 &&
                             <ItemsListActions 
                                 itemsArray={recipe?.items} 
                                 docRef={docRef} 
                                 docProp="items"
                             />
-                    }
+                    } */}
+
+                <>
+                    <div className="flex gap-2 text-lg">
+                        <Card className="p-0 flex">
+                            <Checkbox  
+                                className="p-3 px-2"
+                                checked={recipe.items.every(item => item.checked)}
+                                // onClick={toggleAllChecked}
+                                />
+                        </Card>
+                        
+                        <Card className="flex flex-1 gap-2">
+                            <button 
+                                className="py-1 px-2 w-full bg-red-600 text-white rounded shadow-sm disabled:opacity-50"
+                                // onClick={removeSelection}
+                                disabled={recipe.items.every(item => item.checked === false)}
+                                >
+                                Borrar
+                            </button>
+                        </Card>
+
+                        
+                    </div>
+                </>
+
                 </main>
             </div>  : <h1>Loading...</h1>
     )
