@@ -13,6 +13,7 @@ import getCapString from "../utility/getCapString"
 import Ingredient from "../components/Ingredient"
 
 import ItemsList from "../components/ItemsList"
+import ItemsListActions from "../components/ItemListActions"
 
 const RecipeContext = createContext()
 
@@ -20,8 +21,7 @@ export default function RecipePage() {
     const { id } = useParams()
     const [recipe, setRecipe] = useState(null)
     const [showAddIngredient, toggleShowAddIngredient] = useToggle(false)
-    const [ noneSelected, setNoneSelected ] = useState(true)
-    const [ oneSelected, setOneSelected] = useState(false)
+
     // ref to document in firebase
     const docRef = doc(db, "recipes", id)
 
@@ -37,15 +37,6 @@ export default function RecipePage() {
 
         return unsub
     },[])
-
-    useEffect(() => {
-        const noneChecked = recipe?.ingredients.every(ingredient => ingredient.checked === false)
-        const oneChecked = recipe?.ingredients.filter(ingredient => ingredient.checked === true).length === 1
-        
-        setNoneSelected(noneChecked)
-        setOneSelected(oneChecked)
-        
-    }, [recipe])
 
     async function addIngredient(value) {
         const docRef = doc(db, "recipes", id)
@@ -163,52 +154,18 @@ export default function RecipePage() {
                         docRef={docRef} 
                         docProp="ingredients" 
                         showAddItem={showAddIngredient} 
-                        addFunction={addIngredient}
                     />
-
-                    <Card className="pt-1">
-                        <ul>
-                            {
-                                recipe.ingredients.map(ingredient => (
-                                    <Ingredient 
-                                        key={ingredient.id}
-                                        onClick={() => toggleChecked(ingredient.id)}
-                                        ingredientObj={ingredient}
-                                    />
-                                ))
-                            }
-                            {/* {
-                                showAddIngredient ? <Listitem className="p-0"><AddItemToFireBase addFunction={addIngredient}/></Listitem> : null
-                            }  */}
-                            
-                        </ul>
-                    </Card>
-                    <div className="flex gap-2 text-lg">
-                        <Card className="p-0 flex">
-                            <Checkbox  
-                                className="p-3 px-2"
-                                checked={recipe.ingredients.every(ingredient => ingredient.checked)}
-                                onClick={toggleAllChecked}
+                    {
+                        recipe.ingredients?.length > 0 &&
+                            <ItemsListActions 
+                                itemsArray={recipe?.ingredients} 
+                                docRef={docRef} 
+                                docProp="ingredients"
                             />
-                        </Card>
-                        <Card className="flex flex-1 gap-2">
-                            <button 
-                                className="py-1 px-2 w-full bg-sky-600 text-white rounded shadow-sm disabled:opacity-50"
-                                onClick={() => {}}
-                                disabled={!oneSelected}
-                            >
-                                Edit
-                            </button>
-                            <button 
-                                className="py-1 px-2 w-full bg-red-600 text-white rounded shadow-sm disabled:opacity-50"
-                                onClick={removeSelection}
-                                disabled={noneSelected}
-                            >
-                                Borrar
-                            </button>
-                            
-                        </Card>
-                    </div>
+                    }
+
+                    
+
                 </main>
             </div> 
             </RecipeContext.Provider> : <h1>Loading...</h1>

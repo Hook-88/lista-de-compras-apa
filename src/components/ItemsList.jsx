@@ -42,18 +42,29 @@ export default function ItemsList({itemsArray, docRef, docProp, showAddItem }) {
 
     return (
         <ItemsListContext.Provider value={{}}>
-            <Card className="pt-1">
-                <ul>
-                    {
-                        itemsArray.map(ingredient => (
-                            <ItemsListItem key={ingredient.id} itemObj={ingredient} onClick={toggleChecked}/>
-                        ))
-                    }
-                    {
-                        showAddItem ? <Listitem className="p-0"><AddItemToFireBase addFunction={addItem}/></Listitem> : null
-                    } 
-                </ul>
-            </Card>
+            {
+                itemsArray.length > 0 ?
+                    <Card className="pt-1">
+                        <ul>
+                            {
+                                itemsArray.map(ingredient => (
+                                    <ItemsListItem key={ingredient.id} itemObj={ingredient} onClick={toggleChecked}/>
+                                ))
+                            }
+                            {
+                                showAddItem ? <Listitem className="p-0"><AddItemToFireBase addFunction={addItem}/></Listitem> : null
+                            } 
+                        </ul>
+                    </Card> : 
+                    showAddItem && itemsArray.length === 0 ?
+                        <Card className="pt-1">
+                            <ul>
+                                {
+                                    showAddItem ? <Listitem className="p-0"><AddItemToFireBase addFunction={addItem}/></Listitem> : null
+                                } 
+                            </ul>
+                        </Card> : null
+            }
         </ItemsListContext.Provider>
     )
 }
