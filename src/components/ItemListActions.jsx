@@ -1,6 +1,8 @@
-import { getDoc, updateDoc } from "firebase/firestore"
+import { db } from "../firebase"
+import { doc, getDoc, updateDoc } from "firebase/firestore"
 import Card from "./Card"
 import Checkbox from "./Checkbox"
+import ItemsList from "./ItemsList"
 
 export default function ItemsListActions({itemsArray, docRef, docProp}) {
     const oneChecked = itemsArray.filter(item => item.checked === true).length === 1
@@ -48,6 +50,27 @@ export default function ItemsListActions({itemsArray, docRef, docProp}) {
         await updateDoc(docRef, { [docProp]: newItemsArray})   
     }
 
+    async function addToShoppingList() {
+        const shoppingListDocRef = doc(db, "shoppingList", "hcxXIfLt1QQeuwwbuJBo")
+        const docSnap = await getDoc(shoppingListDocRef)
+        const itemsToAddArray = 
+            itemsArray.filter(item => item.checked === true)
+                .map(filteredItem => (
+                    {
+                        ...filteredItem,
+                        checked: false
+                    }
+                ))
+
+        const newItemsArray = [...docSnap.data().items, ...itemsToAddArray]
+
+        await updateDoc(shoppingListDocRef, { items: newItemsArray})
+
+        unCheckAllItems()
+    }
+
+
+
     
     return (
         <>
@@ -63,7 +86,7 @@ export default function ItemsListActions({itemsArray, docRef, docProp}) {
             <Card className="flex flex-1 gap-2">
                 <button 
                     className="py-1 px-2 w-full bg-emerald-600 text-white rounded shadow-sm disabled:opacity-50"
-                    onClick={() => {}}
+                    onClick={addToShoppingList}
                     disabled={itemsArray.every(item => item.checked === false)}
                 >
                     Add to Shopping list

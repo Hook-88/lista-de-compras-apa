@@ -44,7 +44,7 @@ export default function ShoppingListPage() {
                     className="px-2"
                     >
                     <ItemsList 
-                        itemsArray={recipe?.items} 
+                        itemsArray={recipe.items} 
                         docRef={docRef} 
                         docProp="items" 
                         showAddItem={showAddIngredient} 
