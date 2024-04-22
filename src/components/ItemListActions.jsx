@@ -1,15 +1,9 @@
-import { useState } from "react"
 import { getDoc, updateDoc } from "firebase/firestore"
 import Card from "./Card"
 import Checkbox from "./Checkbox"
 
 export default function ItemsListActions({itemsArray, docRef, docProp}) {
-    const [ noneSelected, setNoneSelected ] = useState(true)
-    const [ oneSelected, setOneSelected] = useState(false)
-    
     const oneChecked = itemsArray.filter(item => item.checked === true).length === 1
-
-    
 
     async function checkAllItems() {
         const docSnap = await getDoc(docRef)
