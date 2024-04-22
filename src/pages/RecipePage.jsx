@@ -103,7 +103,7 @@ export default function RecipePage() {
             <div className="min-h-dvh bg-orange-50">
                 <header className="text-center text-2xl border-b border-slate-300 py-2 mb-2">
                     <h1 className="">{recipe.name}</h1>
-                    <button className="absolute top-0 right-0 p-3" onClick={toggleShowAddIngredient}>
+                    <button className="fixed top-0 right-0 p-3 -z-1" onClick={toggleShowAddIngredient}>
                         { showAddIngredient ? <FaCheck /> : <FaPlus />}
                     </button>
                 </header>

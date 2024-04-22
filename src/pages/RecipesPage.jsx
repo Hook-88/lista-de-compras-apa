@@ -3,6 +3,7 @@ import { onSnapshot } from "firebase/firestore"
 import { db, recipesCollection } from "../firebase"
 import { useEffect, useState } from "react"
 import Card from "../components/Card"
+import { FaPlus } from "react-icons/fa6"
 
 export default function RecipesPage() {
     const [recipes, setRecipes] = useState(null)
@@ -24,8 +25,14 @@ export default function RecipesPage() {
 
     return (
         <div className="min-h-dvh bg-orange-50">
-            <header className="text-center text-2xl border-b border-slate-300 py-2 mb-2">
+            <header className="text-2xl border-b border-slate-300 py-2 mb-2 flex justify-between items-center">
+                <FaPlus className="text-transparent"/>
                 <h1>Recetas</h1>
+                <Link to="/add-new-recipe flex">
+                    <button className="pr-2 flex">
+                        <FaPlus />
+                    </button>
+                </Link>
             </header>
             <main 
                 className="px-2"
