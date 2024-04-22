@@ -62,13 +62,17 @@ export default function ItemsListActions({itemsArray, docRef, docProp}) {
                     }
                 ))
 
-        const newItemsArray = [...docSnap.data().items, ...itemsToAddArray].reduce((uniqueArray, item) => {
-            // Use a map to track unique items by id
-            if (!uniqueArray.map(obj => obj.name).includes(item.name)) {
-                uniqueArray.push(item)
-            }
-            return uniqueArray
-        }, [])
+        const newItemsArray = 
+            [...docSnap.data().items, ...itemsToAddArray]
+            //merge array 
+                .reduce((uniqueArray, item) => {
+                    // if itemObj is not in both arrays
+                    if (!uniqueArray.map(obj => obj.name).includes(item.name)) {
+                        //add itemObj to unbique array
+                        uniqueArray.push(item)
+                    }
+                    return uniqueArray
+                }, [])
 
         await updateDoc(shoppingListDocRef, { items: newItemsArray})
 
