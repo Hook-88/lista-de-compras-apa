@@ -5,6 +5,7 @@ import { createContext, useEffect, useState } from "react"
 import { nanoid } from "nanoid"
 import Card from "../components/Card"
 import Listitem from "../components/Listitem"
+import Checkbox from "../components/Checkbox"
 import AddItemToFireBase from "../components/AddItemToFirebase"
 import { FaPlus, FaCheck } from "react-icons/fa6"
 import useToggle from "../hooks/useToggle"
@@ -22,7 +23,8 @@ export default function RecipePage() {
             // sync with local state
             const recipeObj = {
                 ...snapshot.data(),
-                id: id
+                id: id,
+                checked: false
             }
             setRecipe(recipeObj)
         })
@@ -35,11 +37,47 @@ export default function RecipePage() {
         const docSnap = await getDoc(docRef)
         const ingredientObj = {
             name: value,
-            id: nanoid()
+            id: nanoid(),
+            checked: false
         }
         const newIngredientsArray = [...docSnap.data().ingredients, ingredientObj]
 
         await updateDoc(docRef, { ingredients: newIngredientsArray})   
+    }
+
+    async function checkIngredient(ingredientId, checkValue) {
+        const docRef = doc(db, "recipes", id)
+        const docSnap = await getDoc(docRef)
+
+        const newIngredientsArray = docSnap.data().ingredients.map(ingredient => {
+            if (ingredient.id === ingredientId) {
+                
+                return {...ingredient, checked: checkValue}
+            } else {
+
+                return ingredient
+            }
+        })
+
+        await updateDoc(docRef, { ingredients: newIngredientsArray }) 
+    }
+
+    async function toggleChecked(ingredientId) {
+        const docRef = doc(db, "recipes", id)
+        const docSnap = await getDoc(docRef)
+
+        const newIngredientsArray = docSnap.data().ingredients.map(ingredient => {
+            if (ingredient.id === ingredientId) {
+                
+                return {...ingredient, checked: !ingredient.checked}
+            } else {
+
+                return ingredient
+            }
+        })
+
+        await updateDoc(docRef, { ingredients: newIngredientsArray }) 
+        
     }
 
     return (
@@ -59,7 +97,14 @@ export default function RecipePage() {
                         <ul>
                             {
                                 recipe.ingredients.map(ingredient => (
-                                    <Listitem key={ingredient.id}>{ingredient.name}</Listitem>
+                                    <Listitem 
+                                        key={ingredient.id}
+                                        onClick={() => toggleChecked(ingredient.id)}
+                                        className="cursor-pointer"
+                                    >
+                                        <Checkbox checked={ingredient.checked} />
+                                        {ingredient.name}
+                                    </Listitem>
                                 ))
                             }
                             {
