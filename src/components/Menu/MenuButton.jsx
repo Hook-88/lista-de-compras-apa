@@ -9,7 +9,8 @@ export default function MenuButton({
     }) {
         const {open, toggleOpen} = useContext(MenuContext)
         
-        function handleClick() {
+        function handleClick(event) {
+            event.stopPropagation()
             toggleOpen()
             onClick()
         }
