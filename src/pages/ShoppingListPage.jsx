@@ -41,9 +41,7 @@ export default function ShoppingListPage() {
                     <h1 className="">{getCapString(recipe.name)}</h1>
                     <button 
                         className="px-3" 
-                        onClick={() => {
-                            toggleShowAddIngredient()
-                        }}
+                        onClick={toggleShowAddIngredient}
                     >
                         { showAddIngredient ? <FaCheck /> : <FaPlus />}
                     </button>
@@ -51,8 +49,11 @@ export default function ShoppingListPage() {
                 {
                     recipe?.items.length === 0 && !showAddIngredient ?
                     <main className="px-2 flex-1 flex flex-col justify-center items-center text-3xl">
-                        <button>
-                            Add items
+                        <button
+                        className="flex gap-2 items-center"
+                            onClick={toggleShowAddIngredient}
+                        >
+                            Add items <FaPlus />
                         </button>
                     </main> : 
                 
