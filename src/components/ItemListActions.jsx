@@ -112,8 +112,23 @@ export default function ItemsListActions({itemsArray, docRef, docProp}) {
                         className="absolute top-10 right-0 bg-white z-10 rounded shadow text-nowrap"
                     >
                         <Menu.Item><button className="py-1 px-2">Edit recipe name</button></Menu.Item>
-                        <Menu.Item><button className="py-1 px-2">Edit selected</button></Menu.Item>
-                        <Menu.Item><button className="py-1 px-2">Remove selected</button></Menu.Item>
+                        {   
+                            oneChecked ?
+                            <Menu.Item><button className="py-1 px-2">Edit selected</button></Menu.Item> : null
+                        }
+                        {
+                            itemsArray.some(item => item.checked === true) ?
+                            <Menu.Item>
+                                <button 
+                                    className="py-1 px-2"
+                                    onClick={removeSelection}
+                                    // disabled={itemsArray.every(item => item.checked === false)}
+                                >
+                                    Remove selected
+                                </button>
+                            </Menu.Item> : null
+                            }
+                        
                     </Menu.Dropdown>
                 </Menu>
 
@@ -122,24 +137,6 @@ export default function ItemsListActions({itemsArray, docRef, docProp}) {
 
             
         </div>
-            
-            <Card className="flex flex-1 gap-2">
-                <button 
-                    className="py-1 px-2 w-full bg-sky-600 text-white rounded shadow-sm disabled:opacity-50"
-                    onClick={() => {}}
-                    disabled={!oneChecked}
-                    >
-                    Edit
-                </button>
-                <button 
-                    className="py-1 px-2 w-full bg-red-600 text-white rounded shadow-sm disabled:opacity-50"
-                    onClick={removeSelection}
-                    disabled={itemsArray.every(item => item.checked === false)}
-                    >
-                    Borrar
-                </button>
-                
-            </Card>
         </>
         
     )
