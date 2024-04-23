@@ -48,8 +48,17 @@ export default function ShoppingListPage() {
                         { showAddIngredient ? <FaCheck /> : <FaPlus />}
                     </button>
                 </header>
+                {
+                    recipe?.items.length === 0 && !showAddIngredient ?
+                    <main className="px-2 flex-1 flex flex-col justify-center items-center text-3xl">
+                        <button>
+                            Add items
+                        </button>
+                    </main> : 
+                
+                
                 <main 
-                    className={`px-2 flex-1 flex justify-center`}
+                    className={`px-2 flex-1`}
                     >
                         <ItemsList 
                             itemsArray={recipe.items} 
@@ -66,6 +75,7 @@ export default function ShoppingListPage() {
                     }
 
                 </main>
+                }
             </div>  : <h1>Loading...</h1>
     )
 }
