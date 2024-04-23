@@ -80,7 +80,7 @@ export default function RecipePage() {
                             />
                     }
                 </main>
-            </div>  : <h1>Loading...</h1>
+            </div>  : <h1>Loading....</h1>
     )
 }
 
