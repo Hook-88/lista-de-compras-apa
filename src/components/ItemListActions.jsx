@@ -6,7 +6,7 @@ import ItemsList from "./ItemsList"
 import { FaAngleDown, FaAngleUp} from "react-icons/fa6"
 import Menu from "./Menu/Index"
 
-export default function ItemsListActions({itemsArray, docRef, docProp}) {
+export default function ItemsListActions({itemsArray, docRef, docProp, toggleEditRecipeName = () => {}}) {
     const oneChecked = itemsArray.filter(item => item.checked === true).length === 1
 
     async function checkAllItems() {
@@ -111,7 +111,7 @@ export default function ItemsListActions({itemsArray, docRef, docProp}) {
                     <Menu.Dropdown
                         className="absolute top-10 right-0 bg-white z-10 rounded shadow text-nowrap"
                     >
-                        <Menu.Item><button className="py-1 px-2">Edit recipe name</button></Menu.Item>
+                        <Menu.Item><button className="py-1 px-2" onClick={toggleEditRecipeName}>Edit recipe name</button></Menu.Item>
                         {   
                             oneChecked ?
                             <Menu.Item><button className="py-1 px-2">Edit selected</button></Menu.Item> : null

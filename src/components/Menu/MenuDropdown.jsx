@@ -25,6 +25,7 @@ export default function MenuDropdown({children, className}) {
             <ul 
                 className={className}
                 ref={menuRef}
+                onClick={toggleOpen}
             >
                 {children}
             </ul> 
