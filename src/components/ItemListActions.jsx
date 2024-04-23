@@ -3,6 +3,8 @@ import { doc, getDoc, updateDoc } from "firebase/firestore"
 import Card from "./Card"
 import Checkbox from "./Checkbox"
 import ItemsList from "./ItemsList"
+import { FaAngleDown, FaAngleUp} from "react-icons/fa6"
+import Menu from "./Menu/Index"
 
 export default function ItemsListActions({itemsArray, docRef, docProp}) {
     const oneChecked = itemsArray.filter(item => item.checked === true).length === 1
@@ -90,14 +92,31 @@ export default function ItemsListActions({itemsArray, docRef, docProp}) {
                     />
             </Card>
             
-            <Card className="flex flex-1 gap-2">
+            <Card className="flex flex-1">
                 <button 
-                    className="py-1 px-2 w-full bg-emerald-600 text-white rounded shadow-sm disabled:opacity-50"
+                    className="py-1 px-2 w-full bg-emerald-600 text-white rounded-l shadow-sm disabled:opacity-50 flex-grow border-r-2 border-white"
                     onClick={addToShoppingList}
                     disabled={itemsArray.every(item => item.checked === false)}
                 >
                     Add to Shopping list
                 </button>
+                <Menu
+                    className="flex relative"
+                >
+                    <Menu.Button
+                        className="bg-emerald-600 px-2 text-white rounded-r shadow-sm disabled:opacity-50 flex items-center"
+                    >
+                        {open => open ? <FaAngleUp /> : <FaAngleDown />}
+                    </Menu.Button>
+                    <Menu.Dropdown
+                        className="absolute top-10 right-0 bg-white z-10 rounded shadow text-nowrap"
+                    >
+                        <Menu.Item><button className="py-1 px-2">Edit recipe name</button></Menu.Item>
+                        <Menu.Item><button className="py-1 px-2">Edit selected</button></Menu.Item>
+                        <Menu.Item><button className="py-1 px-2">Remove selected</button></Menu.Item>
+                    </Menu.Dropdown>
+                </Menu>
+
                 
             </Card>
 
