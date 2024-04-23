@@ -1,12 +1,33 @@
-import { useContext } from "react"
+import { useContext, useEffect, useRef } from "react"
 import { MenuContext } from "./Menu"
 
 export default function MenuDropdown({children, className}) {
-    const { open } = useContext(MenuContext)
+    const { open, toggleOpen } = useContext(MenuContext)
+    const menuRef = useRef()
+
+    useEffect(() => {
+        function handler(event) {
+            if (menuRef.current) {
+                
+                if (!menuRef.current.contains(event.target)) {
+                    toggleOpen()
+                }
+            }
+            
+        }
+
+        document.addEventListener("mousedown", handler)
+
+    })
     
     return (
         open ? 
-            <ul className={className}>{children}</ul> 
+            <ul 
+                className={className}
+                ref={menuRef}
+            >
+                {children}
+            </ul> 
             : null
     )
 }

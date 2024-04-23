@@ -16,9 +16,12 @@ export default function AddItemToFireBase({addFunction}) {
     function handleSubmit() {
         addFunction(formData)
         setFormData("")
-        setTimeout(() => {
-            inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 100)
+        if (inputRef.current) {
+            setTimeout(() => {
+                inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }, 100)
+        }
+        
     }
 
     return (
