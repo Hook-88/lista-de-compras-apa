@@ -27,6 +27,7 @@ export default function ShoppingListPage() {
                 id: "hcxXIfLt1QQeuwwbuJBo",
             }
             setRecipe(recipeObj)
+            
         })
 
         return unsub
@@ -34,23 +35,28 @@ export default function ShoppingListPage() {
 
     return (
         recipe ?
-            <div className="min-h-dvh bg-orange-50">
+            <div className="min-h-dvh bg-orange-50 flex flex-col">
                 <header className="text-2xl border-b border-slate-300 py-2 mb-2 flex justify-between items-center">
                     <FaCheck className="text-transparent ml-3"/>
                     <h1 className="">{getCapString(recipe.name)}</h1>
-                    <button className="px-3" onClick={toggleShowAddIngredient}>
+                    <button 
+                        className="px-3" 
+                        onClick={() => {
+                            toggleShowAddIngredient()
+                        }}
+                    >
                         { showAddIngredient ? <FaCheck /> : <FaPlus />}
                     </button>
                 </header>
                 <main 
-                    className="px-2"
+                    className={`px-2 flex-1 flex justify-center`}
                     >
-                    <ItemsList 
-                        itemsArray={recipe.items} 
-                        docRef={docRef} 
-                        docProp="items" 
-                        showAddItem={showAddIngredient} 
-                    />
+                        <ItemsList 
+                            itemsArray={recipe.items} 
+                            docRef={docRef} 
+                            docProp="items" 
+                            showAddItem={showAddIngredient} 
+                        />
                     {
                         recipe.items.length > 0 &&
                             <ShoppingListActions 
